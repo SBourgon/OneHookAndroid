@@ -58,8 +58,6 @@ public class OHAlertDialogFragment extends DialogFragment {
 
         Serializable mObjectS;
 
-        Parcelable mObjectP;
-
         boolean mCancelable;
 
         public OHAlertDialogFragmentBuilder(final Resources res) {
@@ -69,7 +67,6 @@ public class OHAlertDialogFragment extends DialogFragment {
             mTitle = null;
             mMesssage = null;
             mObjectS = null;
-            mObjectP = null;
             mCancelable = false;
         }
 
@@ -119,23 +116,13 @@ public class OHAlertDialogFragment extends DialogFragment {
             return this;
         }
 
-        public OHAlertDialogFragmentBuilder object(final Parcelable object) {
-            mObjectP = object;
-            return this;
-        }
-
         public OHAlertDialogFragmentBuilder cancelable(final boolean cancelable) {
             mCancelable = cancelable;
             return this;
         }
 
         public OHAlertDialogFragment show(FragmentManager manager, final String tag) {
-            final OHAlertDialogFragment fragment;
-            if (mObjectP == null) {
-                fragment = OHAlertDialogFragment.newInstance(tag, mTitle, mMesssage, mButton1Text, mButton2Text, mObjectS, mCancelable);
-            } else {
-                fragment = OHAlertDialogFragment.newInstance(tag, mTitle, mMesssage, mButton1Text, mButton2Text, mObjectP, mCancelable);
-            }
+            final OHAlertDialogFragment fragment = create(tag);
             final FragmentTransaction ft = manager.beginTransaction();
             ft.add(fragment, tag);
             ft.commit();
@@ -143,16 +130,15 @@ public class OHAlertDialogFragment extends DialogFragment {
         }
 
         public OHAlertDialogFragment showAllowingStateLoss(FragmentManager manager, final String tag) {
-            final OHAlertDialogFragment fragment;
-            if (mObjectP == null) {
-                fragment = OHAlertDialogFragment.newInstance(tag, mTitle, mMesssage, mButton1Text, mButton2Text, mObjectS, mCancelable);
-            } else {
-                fragment = OHAlertDialogFragment.newInstance(tag, mTitle, mMesssage, mButton1Text, mButton2Text, mObjectP, mCancelable);
-            }
+            final OHAlertDialogFragment fragment = create(tag);
             final FragmentTransaction ft = manager.beginTransaction();
             ft.add(fragment, tag);
             ft.commitAllowingStateLoss();
             return fragment;
+        }
+
+        public OHAlertDialogFragment create(final String tag) {
+            return OHAlertDialogFragment.newInstance(tag, mTitle, mMesssage, mButton1Text, mButton2Text, mObjectS, mCancelable);
         }
     }
 
