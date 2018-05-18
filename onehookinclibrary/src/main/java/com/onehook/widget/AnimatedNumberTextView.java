@@ -35,11 +35,16 @@ public class AnimatedNumberTextView extends TextView {
         setNumber(0);
     }
 
+    public int getNumber() {
+        return number;
+    }
+
     /**
      * For property animator.
      *
      * @param newNumber new number
      */
+
     public void setNumber(final int newNumber) {
         this.number = newNumber;
         renderNumber(this.number);
